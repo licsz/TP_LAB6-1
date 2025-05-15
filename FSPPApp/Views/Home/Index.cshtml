@@ -1,0 +1,87 @@
+@{
+    Layout = null;
+}
+
+@*
+    РЕАЛИЗАЦИЯ ТРЕБОВАНИЯ:
+    "Для метода Index() создать представление, в котором, используя вспомогательные методы Html TextBox, 
+    CheckBox и т.д., обеспечить ввод данных из предметной области – 5-6 полей, имеющих не менее 3 
+    различных типов, в том числе идентификатор числового типа, допускающего значение null 
+    (класс модели не создавать)."
+    
+    Примечание: В данной реализации используется предметная область "ФССП" (Федеральная Служба Судебных Приставов),
+    а не "Базы данных", но требования по типам полей соблюдены.
+*@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Форма исполнительного производства ФССП</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; }
+        .form-control { width: 300px; padding: 5px; }
+        .btn { padding: 8px 15px; background-color: #0078d7; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2>Данные исполнительного производства ФССП</h2>
+    
+    @* Форма для ввода данных с методом POST *@
+    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    {
+        <div class="form-group">
+            <label>Номер исполнительного производства:</label>
+            @* ПОЛЕ 1: Html.TextBox для идентификатора числового типа, допускающего значение null *@
+            @Html.TextBox("caseNumber", null, new { @class = "form-control", type = "number" })
+        </div>
+        
+        <div class="form-group">
+            <label>ФИО должника:</label>
+            @* ПОЛЕ 2: Html.TextBox для строкового типа *@
+            @Html.TextBox("fullName", null, new { @class = "form-control" })
+        </div>
+        
+        <div class="form-group">
+            <label>Сумма задолженности (руб.):</label>
+            @* ПОЛЕ 3: Html.TextBox для числового типа с плавающей точкой *@
+            @Html.TextBox("debtAmount", null, new { @class = "form-control", type = "number", step = "0.01" })
+        </div>
+        
+        <div class="form-group">
+            <label>Дата возбуждения производства:</label>
+            @* ПОЛЕ 4: Html.TextBox для типа дата *@
+            @Html.TextBox("caseDate", null, new { @class = "form-control", type = "date" })
+        </div>
+        
+        <div class="form-group">
+            <label>Статус исполнительного производства:</label>
+            @* ПОЛЕ 5: Html.DropDownList для типа перечисление *@
+            @Html.DropDownList("caseStatus", 
+                new SelectList(new[] { 
+                    "Возбуждено", 
+                    "В работе", 
+                    "Приостановлено",
+                    "Окончено", 
+                    "Прекращено" 
+                }), 
+                "Выберите статус", new { @class = "form-control" })
+        </div>
+        
+        <div class="form-group">
+            <label>
+                @* ПОЛЕ 6: Html.CheckBox для логического типа *@
+                @Html.CheckBox("hasPropertyArrest") Наложен арест на имущество
+            </label>
+        </div>
+        
+        <div class="form-group">
+            <input type="submit" value="Отправить" class="btn" />
+        </div>
+    }
+</body>
+</html> 

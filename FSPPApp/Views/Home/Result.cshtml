@@ -1,0 +1,67 @@
+@{
+    Layout = null;
+}
+
+@*
+    РЕАЛИЗАЦИЯ ТРЕБОВАНИЯ:
+    "Создать Post-метод Index(), в котором получить введённые данные (частично из параметров метода 
+    действия, частично с помощью контекстного объекта Request.Form) и вывести их в ещё одном представлении, 
+    передав значения с помощью объекта ViewBag, если числовой идентификатор не пустой."
+    
+    Данное представление Result.cshtml является "ещё одним представлением", в котором выводятся введённые
+    данные, полученные через ViewBag от POST-метода Index() контроллера Home.
+*@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Результат - Данные исполнительного производства ФССП</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .data-row { margin-bottom: 10px; }
+        .label { font-weight: bold; display: inline-block; width: 250px; }
+        .value { display: inline-block; }
+        .btn { padding: 8px 15px; background-color: #0078d7; color: white; border: none; cursor: pointer; margin-top: 20px; text-decoration: none; display: inline-block; }
+    </style>
+</head>
+<body>
+    <h2>Полученные данные исполнительного производства ФССП</h2>
+    
+    @* РЕАЛИЗАЦИЯ ТРЕБОВАНИЯ: отображение данных, полученных через объект ViewBag *@
+    <div class="data-row">
+        <span class="label">Номер исполнительного производства:</span>
+        <span class="value">@ViewBag.CaseNumber</span>
+    </div>
+    
+    <div class="data-row">
+        <span class="label">ФИО должника:</span>
+        <span class="value">@ViewBag.FullName</span>
+    </div>
+    
+    <div class="data-row">
+        <span class="label">Сумма задолженности (руб.):</span>
+        <span class="value">@ViewBag.DebtAmount</span>
+    </div>
+    
+    <div class="data-row">
+        <span class="label">Дата возбуждения производства:</span>
+        <span class="value">@ViewBag.CaseDate</span>
+    </div>
+    
+    <div class="data-row">
+        <span class="label">Статус исполнительного производства:</span>
+        <span class="value">@ViewBag.CaseStatus</span>
+    </div>
+    
+    <div class="data-row">
+        <span class="label">Наложен арест на имущество:</span>
+        <span class="value">@(ViewBag.HasPropertyArrest ? "Да" : "Нет")</span>
+    </div>
+    
+    @* Ссылка для возврата к исходной форме *@
+    <a href="@Url.Action("Index", "Home")" class="btn">Вернуться к форме</a>
+</body>
+</html> 
